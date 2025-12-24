@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>{$maccms.site_name} - 网站地图</title>
+  {include file="public/include"}
+</head>
+<body>
+  {include file="public/head"}
+  <main class="container">
+    <h1 class="page-title">{$maccms.site_name} - 网站地图</h1>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>分类导航</h2>
+      </div>
+      {maccms:type ids="parent" order="asc" by="sort" id="vo"}
+      <div class="section">
+        <div class="section-header">
+          <h2><a href="{:mac_url_type($vo)}">{$vo.type_name}</a></h2>
+        </div>
+        {if condition="!$vo.childids eq '' "}
+        <div class="episode-list">
+          {maccms:type parent="'.$vo['type_id'].'" order="asc" by="sort" id="vo2"}
+          <a href="{:mac_url_type($vo2)}">{$vo2.type_name}</a>
+          {/maccms:type}
+        </div>
+        {/if}
+      </div>
+      {/maccms:type}
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>最新内容</h2>
+      </div>
+      <div class="card-grid">
+        {maccms:vod num="60" order="desc" by="time"}
+        <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+          <div class="card-thumb">
+            <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+          </div>
+          <div class="card-body">
+            <div class="card-title">{$vo.vod_name}</div>
+            <div class="card-meta">{$vo.vod_year}</div>
+          </div>
+        </a>
+        {/maccms:vod}
+      </div>
+    </section>
+  </main>
+  {include file="public/foot"}
+</body>
+</html>

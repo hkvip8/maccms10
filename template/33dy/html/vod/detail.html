@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>{$obj.vod_name} - {$obj.type.type_name} - {$maccms.site_name}</title>
+  <meta name="keywords" content="{$obj.vod_name},{$obj.type.type_name},{$maccms.site_keywords}">
+  <meta name="description" content="{$obj.vod_blurb|default=$obj.vod_name}">
+  {include file="public/include"}
+</head>
+<body>
+  {include file="public/head"}
+  <main class="container">
+    <section class="detail-layout">
+      <div class="detail-poster">
+        <img src="{:mac_url_img($obj.vod_pic)}" alt="{$obj.vod_name}">
+      </div>
+      <div class="detail-info">
+        <h1>{$obj.vod_name}</h1>
+        <div class="meta">
+          <span>类型：{$obj.type.type_name}</span>
+          <span>地区：{$obj.vod_area}</span>
+          <span>年份：{$obj.vod_year}</span>
+          <span>更新：{$obj.vod_time|date='Y-m-d',###}</span>
+        </div>
+        <a class="play-btn" href="{:mac_url_vod_play($obj,'first')}">立即播放</a>
+        <div class="intro">{$obj.vod_blurb|default=$obj.vod_content}</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>播放列表</h2>
+      </div>
+      {maccms:foreach name="obj.vod_play_list" id="play"}
+      <div class="section">
+        <div class="section-header">
+          <h2>{$play.player_info.show|default=$play.from}</h2>
+        </div>
+        <div class="episode-list">
+          {maccms:foreach name="play.urls" id="item"}
+          <a href="{:mac_url_vod_play($obj,['sid'=>$play.sid,'nid'=>$item.nid])}">{$item.name}</a>
+          {/maccms:foreach}
+        </div>
+      </div>
+      {/maccms:foreach}
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>相关影片</h2>
+      </div>
+      <div class="card-grid">
+        {maccms:vod num="12" type="current" order="desc" by="time"}
+        <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+          <div class="card-thumb">
+            <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+          </div>
+          <div class="card-body">
+            <div class="card-title">{$vo.vod_name}</div>
+            <div class="card-meta">{$vo.vod_year} · {$vo.vod_area}</div>
+          </div>
+        </a>
+        {/maccms:vod}
+      </div>
+    </section>
+  </main>
+  {include file="public/foot"}
+</body>
+</html>

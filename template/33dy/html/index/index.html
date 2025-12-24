@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>{$maccms.seo.vod.name|default=$maccms.site_name}</title>
+  <meta name="keywords" content="{$maccms.seo.vod.key|default=$maccms.site_keywords}">
+  <meta name="description" content="{$maccms.seo.vod.des|default=$maccms.site_description}">
+  {include file="public/include"}
+</head>
+<body>
+  {include file="public/head"}
+  <main class="container">
+    <section class="hero">
+      <h1>{$maccms.site_name}</h1>
+      <p>{$maccms.site_description}</p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>最新更新</h2>
+        {maccms:type num="1" order="asc" by="sort" mid="1" id="type"}
+        <a href="{:mac_url_type($type)}">查看更多</a>
+        {/maccms:type}
+      </div>
+      <div class="card-grid">
+        {maccms:vod num="12" order="desc" by="time"}
+        <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+          <div class="card-thumb">
+            <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+          </div>
+          <div class="card-body">
+            <div class="card-title">{$vo.vod_name}</div>
+            <div class="card-meta">{$vo.vod_year} · {$vo.vod_area} · {$vo.vod_remarks}</div>
+          </div>
+        </a>
+        {/maccms:vod}
+      </div>
+    </section>
+
+    {maccms:type num="6" order="asc" by="sort" mid="1"}
+    <section class="section">
+      <div class="section-header">
+        <h2>{$vo.type_name}</h2>
+        <a href="{:mac_url_type($vo)}">更多{$vo.type_name}</a>
+      </div>
+      <div class="card-grid">
+        {maccms:vod num="12" type="'.$vo['type_id'].'" order="desc" by="time"}
+        <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+          <div class="card-thumb">
+            <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+          </div>
+          <div class="card-body">
+            <div class="card-title">{$vo.vod_name}</div>
+            <div class="card-meta">{$vo.vod_year} · {$vo.vod_area}</div>
+          </div>
+        </a>
+        {/maccms:vod}
+      </div>
+    </section>
+    {/maccms:type}
+  </main>
+  {include file="public/foot"}
+</body>
+</html>

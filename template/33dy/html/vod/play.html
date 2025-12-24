@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>{$obj.vod_name} 在线观看 - {$maccms.site_name}</title>
+  <meta name="keywords" content="{$obj.vod_name},{$obj.type.type_name},{$maccms.site_keywords}">
+  <meta name="description" content="{$obj.vod_blurb|default=$obj.vod_name}">
+  {include file="public/include"}
+</head>
+<body>
+  {include file="public/head"}
+  <main class="container">
+    <h1 class="page-title">{$obj.vod_name}</h1>
+    <div class="player-wrap">
+      {$player_data}
+      {$player_js}
+    </div>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>选集</h2>
+      </div>
+      {maccms:foreach name="obj.vod_play_list" id="play"}
+      {if condition="$play.sid eq $param.sid"}
+      <div class="episode-list">
+        {maccms:foreach name="play.urls" id="item"}
+        {if condition="$item.nid eq $param.nid"}
+        <a class="is-active" href="{:mac_url_vod_play($obj,['sid'=>$play.sid,'nid'=>$item.nid])}">{$item.name}</a>
+        {else}
+        <a href="{:mac_url_vod_play($obj,['sid'=>$play.sid,'nid'=>$item.nid])}">{$item.name}</a>
+        {/if}
+        {/maccms:foreach}
+      </div>
+      {/if}
+      {/maccms:foreach}
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2>更多推荐</h2>
+      </div>
+      <div class="card-grid">
+        {maccms:vod num="12" type="current" order="desc" by="time"}
+        <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+          <div class="card-thumb">
+            <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+          </div>
+          <div class="card-body">
+            <div class="card-title">{$vo.vod_name}</div>
+            <div class="card-meta">{$vo.vod_year} · {$vo.vod_area}</div>
+          </div>
+        </a>
+        {/maccms:vod}
+      </div>
+    </section>
+  </main>
+  {include file="public/foot"}
+</body>
+</html>

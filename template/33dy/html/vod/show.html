@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <title>{$obj.type_title|default=$obj.type_name} 筛选 - {$maccms.site_name}</title>
+  <meta name="keywords" content="{$obj.type_key|default=$maccms.site_keywords}">
+  <meta name="description" content="{$obj.type_des|default=$maccms.site_description}">
+  {include file="public/include"}
+</head>
+<body>
+  {include file="public/head"}
+  <main class="container">
+    <h1 class="page-title">{$obj.type_name} · 筛选结果</h1>
+    <div class="card-grid">
+      {maccms:vod num="24" paging="yes" pageurl="vod/show" type="current" order="desc" by="time"}
+      <a class="card" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+        <div class="card-thumb">
+          <img src="{:mac_url_img($vo.vod_pic)}" alt="{$vo.vod_name}">
+        </div>
+        <div class="card-body">
+          <div class="card-title">{$vo.vod_name}</div>
+          <div class="card-meta">{$vo.vod_year} · {$vo.vod_area} · {$vo.vod_remarks}</div>
+        </div>
+      </a>
+      {/maccms:vod}
+    </div>
+    {include file="public/paging"}
+  </main>
+  {include file="public/foot"}
+</body>
+</html>
